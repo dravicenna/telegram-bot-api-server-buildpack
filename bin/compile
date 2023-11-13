@@ -1,0 +1,41 @@
+#!/bin/bash
+
+header() {
+  echo "" || true
+  echo "-----> $*" || true
+}
+
+
+# # Function to export config vars to the environment
+# export_env_dir() {
+#   env_dir=$1
+#   acceptlist_regex=${2:-''}
+#   denylist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+#   if [ -d "$env_dir" ]; then
+#     for e in $(ls $env_dir); do
+#       echo "$e" | grep -E "$acceptlist_regex" | grep -qvE "$denylist_regex" &&
+#       export "$e=$(cat $env_dir/$e)"
+#       :
+#     done
+#   fi
+# }
+
+header "Installing telegram-bot-api"
+
+# Install dependencies
+apt-get update
+apt-get upgrade -y
+apt-get install -y make git zlib1g-dev libssl-dev gperf cmake clang-14 libc++-dev libc++abi-dev
+
+# Download and install Telegram Bot API server
+git clone --recursive https://github.com/tdlib/telegram-bot-api.git
+cd telegram-bot-api
+rm -rf build
+mkdir build
+cd build
+CXXFLAGS="-stdlib=libc++" CC=/usr/bin/clang-14 CXX=/usr/bin/clang++-14 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX:PATH=.. ..
+cmake --build . --target install
+cd ../..
+
+# # Export environment variables
+# export_env_dir "$2"
