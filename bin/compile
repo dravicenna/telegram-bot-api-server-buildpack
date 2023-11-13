@@ -23,9 +23,9 @@ header() {
 header "Installing telegram-bot-api"
 
 # Install dependencies
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get install -y make git zlib1g-dev libssl-dev gperf cmake clang-14 libc++-dev libc++abi-dev
+# sudo apt-get update
+# sudo apt-get upgrade -y
+apt install -y make git zlib1g-dev libssl-dev gperf cmake clang-14 libc++-dev libc++abi-dev
 
 # Download and install Telegram Bot API server
 git clone --recursive https://github.com/tdlib/telegram-bot-api.git
